@@ -34,10 +34,13 @@ def health():
 @app.post("/api/study-packs", response_model=StudyPack)
 def create_study_pack(payload: GenerateRequest, db: Session = Depends(get_db)):
     try:
-        from .ai_service import generate_study_pack
+        from .ai_service import AIUnavailableError, generate_study_pack
         result = generate_study_pack(payload.topic.strip(), payload.notes.strip(), payload.level)
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc))
+    except AIUnavailableError as exc:
+        print(f"Study pack generation failed after retries: {exc}")
+        raise HTTPException(status_code=503, detail="Gemini is busy or rate-limited right now. Please wait a minute and try again.")
     except Exception as exc:
         print(f"Study pack generation failed: {type(exc).__name__}: {exc}")
         raise HTTPException(status_code=502, detail="AI generation failed. Check API key, model access, quota, and backend logs.")

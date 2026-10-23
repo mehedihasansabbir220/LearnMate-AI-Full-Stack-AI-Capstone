@@ -48,6 +48,7 @@ curl http://localhost:8000/api/health
 |---|---|
 | UI shows "Missing GEMINI_API_KEY" (HTTP 503) | `backend/.env` still has the placeholder key. Add your key and restart uvicorn. |
 | UI shows "AI generation failed..." (HTTP 502) | Invalid key, quota exceeded, or the model isn't available to your key. Check the uvicorn terminal for the real error. Try a different `GEMINI_MODEL`. |
+| UI shows "Gemini is busy or rate-limited" (HTTP 503) | Google returned 429/503 after 3 retries per model. Temporary on Google's side: wait and retry, or set `GEMINI_FALLBACK_MODELS`. |
 | "Failed to fetch" / CORS error in browser console | Backend not running, or the frontend isn't on `FRONTEND_ORIGIN` (default `http://localhost:3000`). If Next picks another port (e.g. 3001), update `FRONTEND_ORIGIN` and restart the backend. |
 | Changed `.env.local` but nothing changed | `NEXT_PUBLIC_*` values are baked in at startup. Restart `npm run dev`. |
 | Port 8000 or 3000 in use | `lsof -nP -iTCP:8000 -sTCP:LISTEN` to find it, or run on another port and update `NEXT_PUBLIC_API_URL` / `FRONTEND_ORIGIN` to match. |
@@ -55,7 +56,8 @@ curl http://localhost:8000/api/health
 ## Configuration
 Backend `.env`:
 - `GEMINI_API_KEY`: your Google AI Studio key (required)
-- `GEMINI_MODEL`: defaults to `gemini-2.5-flash`; change to a model available in your account if needed
+- `GEMINI_MODEL`: defaults to `gemini-flash-latest`; change to a model available in your account if needed
+- `GEMINI_FALLBACK_MODELS`: optional comma-separated models to try when the main model is overloaded (e.g. `gemini-flash-lite-latest`)
 - `DATABASE_URL`: defaults to `sqlite:///./learnmate.db`; for Neon use `postgresql+psycopg://USER:PASSWORD@HOST/DBNAME?sslmode=require`
 - `FRONTEND_ORIGIN`: defaults to `http://localhost:3000`
 
