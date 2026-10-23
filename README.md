@@ -2,11 +2,21 @@
 
 A study assistant that turns a topic or pasted notes into a study guide, key points, a multiple-choice quiz, and revision tips.
 
+## Live demo
+| Part | URL |
+|---|---|
+| Frontend (app) | https://learnmate-web.onrender.com |
+| Backend (API) | https://learnmate-ai-full-stack-ai-capstone.onrender.com |
+| API docs (Swagger) | https://learnmate-ai-full-stack-ai-capstone.onrender.com/docs |
+| Health check | https://learnmate-ai-full-stack-ai-capstone.onrender.com/api/health |
+
+Both services are on Render's free plans. The backend sleeps after 15 minutes without traffic, so the first request after a quiet period can take up to about a minute.
+
 ## Stack
-- Frontend: Next.js 14, React, TypeScript
+- Frontend: Next.js 14, React, TypeScript (static export)
 - Backend: FastAPI + Python
 - AI: Google Gemini API from Google AI Studio
-- Database: SQLite locally; PostgreSQL/Neon supported
+- Database: SQLite locally; PostgreSQL in production (Supabase or Neon)
 - GitHub-ready documentation: proposal, architecture, final report template
 
 ## Run locally
