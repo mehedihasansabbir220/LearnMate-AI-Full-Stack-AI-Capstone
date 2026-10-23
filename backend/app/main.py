@@ -19,7 +19,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="LearnMate AI API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")],
+    # FRONTEND_ORIGIN may list several comma-separated origins, e.g. local dev plus the deployed site.
+    allow_origins=[o.strip().rstrip("/") for o in os.getenv("FRONTEND_ORIGIN", "http://localhost:3000").split(",") if o.strip()],
     allow_credentials=False, allow_methods=["*"], allow_headers=["*"],
 )
 

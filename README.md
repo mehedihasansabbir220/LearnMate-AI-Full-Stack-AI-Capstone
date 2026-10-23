@@ -63,12 +63,8 @@ Backend `.env`:
 
 Frontend `.env.local`: `NEXT_PUBLIC_API_URL=http://localhost:8000`
 
-## Free deployment outline
-1. Deploy the FastAPI backend to a free web-service tier where available. Build: `pip install -r requirements.txt`; start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
-2. Create a Neon PostgreSQL database and set `DATABASE_URL` on the backend.
-3. Set backend `GEMINI_API_KEY`, `GEMINI_MODEL`, and `FRONTEND_ORIGIN` environment variables.
-4. Deploy the Next.js frontend to a host supporting Next.js. Set `NEXT_PUBLIC_API_URL` to the deployed backend URL. Free tiers and limits change; free services may sleep.
-5. Never put the Gemini API key in a `NEXT_PUBLIC_` variable or commit `.env`.
+## Free deployment
+See [DEPLOYMENT.md](DEPLOYMENT.md) for a step-by-step guide that deploys the backend and frontend on Render's free plans, with a free Neon PostgreSQL database. Never put the Gemini API key in a `NEXT_PUBLIC_` variable or commit `.env`.
 
 ## GitHub
 ```bash
